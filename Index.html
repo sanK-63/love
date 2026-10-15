@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Приглашение для Мануленка</title>
+  
+  <!-- Google Fonts: Montserrat + Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <script>
+    // Настройки Telegram бота
+    const TELEGRAM_BOT_TOKEN = '8919974911:AAFMk5G32si6DqCoR2jMNoGsLe2s6AlKryg';
+    const TELEGRAM_CHAT_ID = '1144136681';
+
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Montserrat', 'sans-serif'],
+            handwritten: ['Caveat', 'cursive'],
+          },
+          colors: {
+            romantic: {
+              50: '#fff0f3',
+              100: '#ffccd5',
+              200: '#ffb3c1',
+              300: '#ff8fa3',
+              400: '#ff758f',
+              500: '#ff4d6d',
+              600: '#c9184a',
+              700: '#a4133c',
+              800: '#800f2f',
+              900: '#590d22',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      touch-action: manipulation;
+      background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 50%, #ffe5ec 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 20px 40px rgba(201, 24, 74, 0.12);
+    }
+
+    .btn-runaway {
+      position: absolute;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 50;
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen p-4 sm:p-6 font-sans text-slate-800 relative">
+
+  <!-- Main Card Container -->
+  <main class="w-full max-w-lg glass-card rounded-3xl p-6 sm:p-8 relative z-10 my-auto text-center transition-all duration-500 shadow-2xl">
+    
+    <!-- STEP 1 -->
+    <section id="step-1" class="space-y-8 py-4">
+      <div class="space-y-3">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-romantic-100 text-romantic-700 text-xs sm:text-sm font-semibold tracking-wide uppercase">
+          Эксклюзивное приглашение
+        </span>
+        <h1 class="font-handwritten text-4xl sm:text-5xl font-bold text-romantic-600 leading-tight">
+          Привет, Мануленок!
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base font-medium leading-relaxed px-2">
+          Свободна 25-го числа? Пойдём проведем классный вечер вместе?
+        </p>
+      </div>
+
+      <!-- Action Buttons Container -->
+      <div id="btn-area" class="relative min-h-[140px] flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+        <!-- YES Button -->
+        <button id="btn-yes" onclick="goToStep(2)" class="w-full sm:w-1/2 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-romantic-500 to-romantic-600 text-white font-bold text-base shadow-lg shadow-romantic-500/30 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer z-10">
+          С удовольствием!
+        </button>
+
+        <!-- NO Button (Runaway) -->
+        <button id="btn-no" class="w-full sm:w-1/2 py-3.5 px-6 rounded-2xl bg-white border-2 border-romantic-300 text-romantic-600 font-bold text-base shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer">
+          <span id="no-text">Я подумаю...</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section id="step-2" class="hidden space-y-6">
+      <div class="space-y-2">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-romantic-100 text-romantic-700 text-xs sm:text-sm font-semibold tracking-wide">
+          Шаг 2 из 3
+        </span>
+        <h2 class="font-handwritten text-4xl sm:text-5xl font-bold text-romantic-600">
+          Выбирай вариант, Мануленок!
+        </h2>
+        <p class="text-slate-600 text-xs sm:text-sm font-medium">
+          Какой сценарий тебе ближе?
+        </p>
+      </div>
+
+      <!-- Options List -->
+      <div class="space-y-3 text-left">
+        <label class="option-card flex items-center p-3.5 sm:p-4 rounded-2xl bg-white/70 border-2 border-transparent hover:border-romantic-300 cursor-pointer transition-all duration-200 shadow-sm">
+          <input type="radio" name="activity" value="🎬 Просмотр фильма с вкусняшками" checked class="w-5 h-5 accent-romantic-500">
+          <span class="ml-3 text-sm sm:text-base font-semibold text-slate-700">🎬 Просмотр фильма с вкусняшками</span>
+        </label>
+
+        <label class="option-card flex items-center p-3.5 sm:p-4 rounded-2xl bg-white/70 border-2 border-transparent hover:border-romantic-300 cursor-pointer transition-all duration-200 shadow-sm">
+          <input type="radio" name="activity" value="🍕 Ужин и долгие разговоры" class="w-5 h-5 accent-romantic-500">
+          <span class="ml-3 text-sm sm:text-base font-semibold text-slate-700">🍕 Ужин и долгие разговоры</span>
+        </label>
+
+        <label class="option-card flex items-center p-3.5 sm:p-4 rounded-2xl bg-white/70 border-2 border-transparent hover:border-romantic-300 cursor-pointer transition-all duration-200 shadow-sm">
+          <input type="radio" name="activity" value="🏠 Уютное свидание дома" class="w-5 h-5 accent-romantic-500">
+          <span class="ml-3 text-sm sm:text-base font-semibold text-slate-700">🏠 Уютное свидание дома</span>
+        </label>
+      </div>
+
+      <!-- Custom Wishes Input -->
+      <div class="space-y-2 text-left pt-1">
+        <label for="wishes" class="block text-xs font-bold text-romantic-700 uppercase tracking-wider px-1">
+          Есть особые пожелания? 💭
+        </label>
+        <textarea id="wishes" rows="2" placeholder="Фильм, вкусняшки, напитки или любые предпочтения..." class="w-full p-3 rounded-xl bg-white/80 border border-romantic-200 focus:border-romantic-500 focus:ring-2 focus:ring-romantic-200 outline-none text-sm text-slate-700 transition-all resize-none shadow-inner"></textarea>
+      </div>
+
+      <!-- Continue Button -->
+      <button onclick="goToStep(3)" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-romantic-500 to-romantic-600 text-white font-bold text-base shadow-lg shadow-romantic-500/30 hover:scale-[1.02] active:scale-98 transition-all cursor-pointer">
+        Продолжить ➔
+      </button>
+    </section>
+
+    <!-- STEP 3 -->
+    <section id="step-3" class="hidden space-y-6 py-2">
+      <div class="space-y-2">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-romantic-100 text-romantic-700 text-xs sm:text-sm font-semibold tracking-wide">
+          Финал ✨
+        </span>
+        <h2 class="font-handwritten text-4xl sm:text-5xl font-bold text-romantic-600">
+          Договорились на 25-е число!
+        </h2>
+        <p class="text-slate-600 text-xs sm:text-sm font-medium">
+          Укажи удобное для тебя время:
+        </p>
+      </div>
+
+      <!-- Time Selector -->
+      <div class="py-1">
+        <input type="time" id="meeting-time" value="18:00" class="px-6 py-2.5 rounded-2xl bg-white border-2 border-romantic-300 text-romantic-700 font-bold text-2xl shadow-inner outline-none focus:border-romantic-500 transition-all cursor-pointer">
+      </div>
+
+      <!-- Summary Card -->
+      <div class="p-4 rounded-2xl bg-romantic-50 text-romantic-800 text-xs sm:text-sm space-y-1.5 text-left border border-romantic-100 shadow-sm">
+        <p class="font-bold">Выбранные детали:</p>
+        <p id="summary-date">📅 Дата: <span class="font-semibold">25-е число</span></p>
+        <p id="summary-activity">✨ Формат: <span class="font-semibold"></span></p>
+        <p id="summary-wishes" class="hidden">💭 Пожелания: <span class="font-semibold"></span></p>
+      </div>
+
+      <!-- Submit Button -->
+      <button id="send-btn" onclick="sendToTelegramBot()" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-romantic-500 to-romantic-600 text-white font-bold text-base sm:text-lg shadow-xl shadow-romantic-500/40 hover:scale-[1.02] active:scale-98 transition-all cursor-pointer flex items-center justify-center gap-2">
+        <span id="btn-label">Отправить подтверждение Тигренку 💌</span>
+      </button>
+    </section>
+
+    <!-- STEP 4 (Success Screen) -->
+    <section id="step-4" class="hidden space-y-6 py-8">
+      <div class="text-6xl animate-bounce">
+        💖
+      </div>
+      <div class="space-y-2">
+        <h2 class="font-handwritten text-4xl sm:text-5xl font-bold text-romantic-600">
+          Спасибо, Мануленок!
+        </h2>
+        <p class="text-slate-600 text-sm sm:text-base font-medium">
+          Ответ успешно отправлен Тигренку! Скоро увидимся ✨
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JavaScript Logic -->
+  <script>
+    function goToStep(step) {
+      document.getElementById('step-1').classList.add('hidden');
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-3').classList.add('hidden');
+      document.getElementById('step-4').classList.add('hidden');
+
+      const target = document.getElementById(`step-${step}`);
+      target.classList.remove('hidden');
+
+      if (step === 3) {
+        updateSummary();
+        triggerConfetti();
+      }
+    }
+
+    function triggerConfetti() {
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#ff4d6d', '#ff8fa3', '#ffccd5', '#ffffff']
+      });
+    }
+
+    // Runaway Button Logic
+    const noBtn = document.getElementById('btn-no');
+    const noText = document.getElementById('no-text');
+    const runawayPhrases = [
+      "Ой, мимо!",
+      "Не-а!",
+      "Попробуй ещё",
+      "Выбора нет",
+      "Почти получилось!",
+      "Заблокировано"
+    ];
+
+    function moveNoButton(e) {
+      if (e) e.preventDefault();
+      
+      const card = document.querySelector('main');
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const padding = 20;
+      const maxX = cardRect.width - btnRect.width - padding;
+      const maxY = cardRect.height - btnRect.height - padding;
+
+      const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+      const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+      if (!noBtn.classList.contains('btn-runaway')) {
+        noBtn.classList.add('btn-runaway');
+      }
+
+      noBtn.style.left = `${randomX}px`;
+      noBtn.style.top = `${randomY}px`;
+
+      const randomPhrase = runawayPhrases[Math.floor(Math.random() * runawayPhrases.length)];
+      noText.innerText = randomPhrase;
+    }
+
+    noBtn.addEventListener('mouseenter', moveNoButton);
+    noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
+    noBtn.addEventListener('pointerdown', moveNoButton, { passive: false });
+
+    function updateSummary() {
+      const selectedActivity = document.querySelector('input[name="activity"]:checked').value;
+      const wishesText = document.getElementById('wishes').value.trim();
+
+      document.querySelector('#summary-activity span').innerText = selectedActivity;
+
+      const wishesContainer = document.getElementById('summary-wishes');
+      if (wishesText) {
+        wishesContainer.classList.remove('hidden');
+        document.querySelector('#summary-wishes span').innerText = wishesText;
+      } else {
+        wishesContainer.classList.add('hidden');
+      }
+    }
+
+    // Direct Telegram Bot API Sender
+    async function sendToTelegramBot() {
+      const btn = document.getElementById('send-btn');
+      const btnLabel = document.getElementById('btn-label');
+
+      btn.disabled = true;
+      btnLabel.innerText = "Отправка...";
+
+      const selectedActivity = document.querySelector('input[name="activity"]:checked').value;
+      const meetingTime = document.getElementById('meeting-time').value;
+      const wishesText = document.getElementById('wishes').value.trim();
+
+      let text = `💌 *НОВОЕ ПОДТВЕРЖДЕНИЕ ОТ МАНУЛЕНКА!*\n\n` +
+                 `📅 *Дата:* 25-е число\n` +
+                 `⏰ *Удобное время:* ${meetingTime}\n` +
+                 `✨ *Формат:* ${selectedActivity}\n`;
+
+      if (wishesText) {
+        text += `💭 *Пожелания:* ${wishesText}\n`;
+      }
+
+      text += `\n🐯 _С любовью, твой Тигренок!_`;
+
+      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: text,
+            parse_mode: 'Markdown'
+          })
+        });
+
+        if (response.ok) {
+          triggerConfetti();
+          goToStep(4);
+        } else {
+          alert('Произошла ошибка при отправке. Нажмите /start в боте и попробуйте ещё раз!');
+          btn.disabled = false;
+          btnLabel.innerText = "Отправить подтверждение Тигренку 💌";
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Ошибка соединения. Проверьте интернет!');
+        btn.disabled = false;
+        btnLabel.innerText = "Отправить подтверждение Тигренку 💌";
+      }
+    }
+  </script>
+</body>
+</html>
